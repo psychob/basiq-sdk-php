@@ -1,0 +1,9 @@
+{
+    "name": "basiq/basiq-sdk-php",
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "psr-4": {
+        "Basiq\\": "src/"
+    }
+}
