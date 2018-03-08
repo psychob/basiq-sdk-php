@@ -3,6 +3,7 @@
 namespace Basiq\Services;
 
 use Basiq\Entities\User;
+use Basiq\Utilities\ResponseParser;
 
 class UserService extends Service {
 
@@ -24,7 +25,7 @@ class UserService extends Service {
             "json" => $data
         ]);
 
-        return (new User($this, json_decode($response->getBody()->getContents(), true)));
+        return (new User($this, ResponseParser::parse($response)));
     }
 
     public function forUser($id) {
@@ -58,7 +59,7 @@ class UserService extends Service {
             ]
         ]);
 
-        return (new User($this, json_decode($response->getBody()->getContents(), true)));
+        return (new User($this, ResponseParser::parse($response)));
     }
 
     public function update($id, $data) {
@@ -82,7 +83,7 @@ class UserService extends Service {
             ],
             "json" => $data
         ]);
-        return (new User($this, json_decode($response->getBody()->getContents(), true)));
+        return (new User($this, ResponseParser::parse($response)));
     }
 
     public function delete($id) {

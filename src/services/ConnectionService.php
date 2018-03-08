@@ -4,8 +4,12 @@ namespace Basiq\Services;
 
 use Basiq\Entities\Connection;
 use Basiq\Entities\Job;
+use Basiq\Utilities\ResponseParser;
+
 
 class ConnectionService extends Service {
+
+    protected $user;
 
     public function __construct($session, $user) 
     {
@@ -39,13 +43,51 @@ class ConnectionService extends Service {
         } catch (\Exception $err) {
             return var_dump($err->getResponse()->getBody()->getContents());
         }
-        $body = json_decode($response->getBody()->getContents(), true);
+        $body = ResponseParser::parse($response);
+
+        return (new Job($this, $body));
+    }
+
+    public function get($connectionId)
+    {
+        try {
+            $response = $this->session->apiClient->get("users/" . $this->user->id . "/connections/"  . $connectionId, [
+                "headers" => [
+                    "Content-type" => "application/json",
+                    "Authorization" => "Bearer ".$this->session->getAccessToken(),
+                    "basiq-version" => "1.0"
+                ]
+            ]);
+        } catch (\Exception $err) {
+            return var_dump($err->getResponse()->getBody()->getContents());
+        }
+
+        $body = ResponseParser::parse($response);
+
+        return new Connection($this, $this->user, $body);
+    }
+
+    public function getJob($jobId)
+    {
+        try {
+            $response = $this->session->apiClient->get("jobs/" . $jobId, [
+                "headers" => [
+                    "Content-type" => "application/json",
+                    "Authorization" => "Bearer ".$this->session->getAccessToken(),
+                    "basiq-version" => "1.0"
+                ]
+            ]);
+        } catch (\Exception $err) {
+            return var_dump($err->getResponse()->getBody()->getContents());
+        }
+
+        $body = ResponseParser::parse($response);
 
         return (new Job($this, $body));
     }
 
     public function forConnection($id) {
-        return (new Connection($this, [
+        return (new Connection($this, null, [
             "id" => $id
         ]));
     }

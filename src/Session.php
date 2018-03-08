@@ -3,6 +3,7 @@
 namespace Basiq;
 
 use GuzzleHttp\Client;
+use Basiq\Utilities\ResponseParser;
 
 class Session {
 
@@ -25,6 +26,7 @@ class Session {
                 "Content-Type" => "application/json"
             ],
             'timeout'  => 12.0,
+            "http_errors" => false
         ]);
 
         $this->tokenValidity = 3600;
@@ -50,7 +52,7 @@ class Session {
 
         $this->sessionTimestamp = time();
 
-        $body = json_decode($response->getBody()->getContents(), true);
+        $body = ResponseParser::parse($response);
         $this->tokenValidity = $body["expires_in"];
 
         return $body["access_token"];
@@ -65,7 +67,7 @@ class Session {
             ]
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return ResponseParser::parse($response);
     }
 
     public function getInstitution($id)
@@ -77,7 +79,7 @@ class Session {
             ]
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return ResponseParser::parse($response);
     }
 
 }

@@ -11,9 +11,10 @@ class User extends Entity {
     public $mobile;
     public $connections;
 
-    private $service;
+    private $connectionService;
+    private $userService;
 
-    public function __construct($service, $data)
+    public function __construct(UserService $service, $data)
     {
         $this->id = $data["id"];
         $this->email = isset($data["email"]) ? (string)$data["email"] : null;
@@ -34,6 +35,13 @@ class User extends Entity {
         return $this->userService->delete($this->id);
     }
 
+    /**
+     * @param $institutionId
+     * @param $userId
+     * @param $password
+     * @param null $securityCode
+     * @return Job|void
+     */
     public function createConnection($institutionId, $userId, $password, $securityCode = null)
     {
         $data = ["institutionId" => $institutionId, "loginId" => $userId, "password" => $password];
@@ -51,7 +59,7 @@ class User extends Entity {
         }
 
         return array_map(function ($value) {
-            return new Connection($value);
+            return new Connection($this->connectionService, $this, $value);
         }, $this->connections["data"]);
     }
 }
