@@ -25,7 +25,7 @@ class Session {
             "headers" => [
                 "Content-Type" => "application/json"
             ],
-            'timeout'  => 20.0,
+            'timeout'  => 30.0,
             "http_errors" => false
         ]);
 

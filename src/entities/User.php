@@ -54,13 +54,13 @@ class User extends Entity {
 
     public function getAllConnections()
     {
-        if (!$this->connections) {
-            return [];
+        if ($this->connections && count($this->connections) > 0) {
+            return array_map(function ($value) {
+                return new Connection($this->connectionService, $this, $value);
+            }, $this->connections);
         }
 
-        return array_map(function ($value) {
-            return new Connection($this->connectionService, $this, $value);
-        }, $this->connections["data"]);
+        return $this->userService->getAllConnections($this->connectionService, $this);
     }
 
     public function fetchAccounts($connectionId = null)
@@ -81,5 +81,10 @@ class User extends Entity {
     public function fetchTransaction($transactionId)
     {
         return $this->userService->fetchTransactions($this->id, $transactionId);
+    }
+
+    public function refreshAllConnections()
+    {
+        return $this->userService->refreshAllConnections($this->id);
     }
 }

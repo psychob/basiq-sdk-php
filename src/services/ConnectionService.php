@@ -31,18 +31,38 @@ class ConnectionService extends Service {
         ];
         unset($data["institutionId"]);
 
-        try {
-            $response = $this->session->apiClient->post("users/" . $this->user->id . "/connections", [
-                "headers" => [
-                    "Content-type" => "application/json",
-                    "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                    "basiq-version" => "1.0"
-                ],
-                "json" => $data
-            ]);
-        } catch (\Exception $err) {
-            return var_dump($err->getResponse()->getBody()->getContents());
+        $response = $this->session->apiClient->post("users/" . $this->user->id . "/connections", [
+            "headers" => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken(),
+                "basiq-version" => "1.0"
+            ],
+            "json" => $data
+        ]);
+
+        $body = ResponseParser::parse($response);
+
+        return (new Job($this, $body));
+    }
+
+    public function update($connectionId, $data = []) {
+        if (!isset($data["password"])) {
+            throw new \InvalidArgumentException("Invalid parameters provided");
         }
+
+        $data = array_filter($data, function ($key) {
+            return $key === "password" || $key === "securityCode";
+        }, ARRAY_FILTER_USE_KEY);
+
+        $response = $this->session->apiClient->post("users/" . $this->user->id . "/connections/" . $connectionId, [
+            "headers" => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken(),
+                "basiq-version" => "1.0"
+            ],
+            "json" => $data
+        ]);
+
         $body = ResponseParser::parse($response);
 
         return (new Job($this, $body));
@@ -50,17 +70,13 @@ class ConnectionService extends Service {
 
     public function get($connectionId)
     {
-        try {
-            $response = $this->session->apiClient->get("users/" . $this->user->id . "/connections/"  . $connectionId, [
-                "headers" => [
-                    "Content-type" => "application/json",
-                    "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                    "basiq-version" => "1.0"
-                ]
-            ]);
-        } catch (\Exception $err) {
-            return var_dump($err->getResponse()->getBody()->getContents());
-        }
+        $response = $this->session->apiClient->get("users/" . $this->user->id . "/connections/"  . $connectionId, [
+            "headers" => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken(),
+                "basiq-version" => "1.0"
+            ]
+        ]);
 
         $body = ResponseParser::parse($response);
 
@@ -69,25 +85,51 @@ class ConnectionService extends Service {
 
     public function getJob($jobId)
     {
-        try {
-            $response = $this->session->apiClient->get("jobs/" . $jobId, [
-                "headers" => [
-                    "Content-type" => "application/json",
-                    "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                    "basiq-version" => "1.0"
-                ]
-            ]);
-        } catch (\Exception $err) {
-            return var_dump($err->getResponse()->getBody()->getContents());
-        }
+        $response = $this->session->apiClient->get("jobs/" . $jobId, [
+            "headers" => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken(),
+                "basiq-version" => "1.0"
+            ]
+        ]);
 
         $body = ResponseParser::parse($response);
 
         return (new Job($this, $body));
     }
 
+    public function refresh($connectionId)
+    {
+        $response = $this->session->apiClient->post("users/" . $this->user->id . "/connections/" . $connectionId . "/refresh", [
+            "headers" => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken(),
+                "basiq-version" => "1.0"
+            ]
+        ]);
+
+        $body = ResponseParser::parse($response);
+
+        return (new Job($this, $body));
+    }
+
+    public function delete($connectionId)
+    {
+        $response = $this->session->apiClient->delete("users/" . $this->user->id . "/connections/" . $connectionId, [
+            "headers" => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken(),
+                "basiq-version" => "1.0"
+            ]
+        ]);
+
+        $body = ResponseParser::parse($response);
+
+        return null;
+    }
+
     public function forConnection($id) {
-        return (new Connection($this, $this->user->id, [
+        return (new Connection($this, $this->user, [
             "id" => $id
         ]));
     }

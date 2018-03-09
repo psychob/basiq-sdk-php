@@ -23,5 +23,22 @@ class Connection extends Entity {
         $this->accounts = isset($data["accounts"]) ? (array)$data["accounts"] : [];
 
         $this->user = $user;
+
+        $this->connectionService = $service;
+    }
+
+    public function update($data)
+    {
+        return $this->connectionService->update($this->id, $data);
+    }
+
+    public function refresh()
+    {
+        return $this->connectionService->refresh($this->id);
+    }
+
+    public function delete()
+    {
+        return $this->connectionService->delete($this->id);
     }
 }

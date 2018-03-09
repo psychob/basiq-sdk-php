@@ -3,8 +3,10 @@
 namespace Basiq\Services;
 
 use Basiq\Entities\User;
+use Basiq\Entities\Job;
 use Basiq\Entities\Account;
 use Basiq\Entities\Transaction;
+use Basiq\Entities\Connection;
 use Basiq\Utilities\ResponseParser;
 
 class UserService extends Service {
@@ -143,11 +145,44 @@ class UserService extends Service {
 
         if (isset($body["data"]) && is_array($body["data"])) {
             return array_map(function ($transaction) {
-                var_dump($transaction);
                 return new Transaction($transaction);
             }, $body["data"]);
         } else {
             return new Transaction($body);
         }
+    }
+
+    public function refreshAllConnections($userId)
+    {
+        $response = $this->session->apiClient->post("users/" . $userId . "/connections/refresh", [
+            "headers" => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken(),
+                "basiq-version" => "1.0"
+            ]
+        ]);
+
+        $body = ResponseParser::parse($response);
+
+        return array_map(function ($job) {
+            return new Job($this, $job);
+        }, $body["data"]);
+    }
+
+    public function getAllConnections($connectionService, $user)
+    {
+        $response = $this->session->apiClient->get("users/" . $user->id . "/connections", [
+            "headers" => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken(),
+                "basiq-version" => "1.0"
+            ]
+        ]);
+
+        $body = ResponseParser::parse($response);
+
+        return array_map(function ($connection) use ($connectionService, $user) {
+            return new Connection($connectionService, $user, $connection);
+        }, $body["data"]);
     }
 }
