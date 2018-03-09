@@ -24,9 +24,4 @@ class Connection extends Entity {
 
         $this->user = $user;
     }
-
-    public function getAccounts()
-    {
-        return $this->accounts;
-    }
 }

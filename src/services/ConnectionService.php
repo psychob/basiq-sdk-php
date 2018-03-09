@@ -87,7 +87,7 @@ class ConnectionService extends Service {
     }
 
     public function forConnection($id) {
-        return (new Connection($this, null, [
+        return (new Connection($this, $this->user->id, [
             "id" => $id
         ]));
     }

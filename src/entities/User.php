@@ -62,4 +62,24 @@ class User extends Entity {
             return new Connection($this->connectionService, $this, $value);
         }, $this->connections["data"]);
     }
+
+    public function fetchAccounts($connectionId = null)
+    {
+        return $this->userService->fetchAccounts($this->id, null, $connectionId);
+    }
+
+    public function fetchAccount($accountId)
+    {
+        return $this->userService->fetchAccounts($this->id, $accountId);
+    }
+
+    public function fetchTransactions($connectionId = null)
+    {
+        return $this->userService->fetchTransactions($this->id, null, $connectionId);
+    }
+
+    public function fetchTransaction($transactionId)
+    {
+        return $this->userService->fetchTransactions($this->id, $transactionId);
+    }
 }

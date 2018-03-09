@@ -3,6 +3,8 @@
 namespace Basiq\Services;
 
 use Basiq\Entities\User;
+use Basiq\Entities\Account;
+use Basiq\Entities\Transaction;
 use Basiq\Utilities\ResponseParser;
 
 class UserService extends Service {
@@ -32,22 +34,6 @@ class UserService extends Service {
         return (new User($this, [
             "id" => $id
         ]));
-    }
-
-    public function setEmail($email) {
-        if (!isset($this->data)) {
-            $this->data = [];
-        }
-        
-        $this->data["email"] = $email;
-    }
-
-    public function setMobile($mobile) {
-        if (!isset($this->data)) {
-            $this->data = [];
-        }
-        
-        $this->data["mobile"] = $mobile;
     }
 
     public function get($id) {
@@ -100,5 +86,68 @@ class UserService extends Service {
         ]);
 
         return null;
+    }
+
+    public function fetchAccounts($userId, $accountId = null, $connectionId = null)
+    {
+        $url = "/users/" . $userId . "/accounts";
+
+        if ($accountId !== null) {
+            $url .= "/". $accountId;
+        }
+
+        if ($connectionId !== null) {
+            $url .= "?filter=connection.id.eq('" . $connectionId . "')";
+        }
+
+        $response = $this->session->apiClient->get($url, [
+            "headers" => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken(),
+                "basiq-version" => "1.0"
+            ]
+        ]);
+
+        $body = ResponseParser::parse($response);
+
+        if (isset($body["data"]) && is_array($body["data"])) {
+            return array_map(function ($account) {
+                return new Account($account);
+            }, $body["data"]);
+        } else {
+            return new Account($body);
+        }
+    }
+
+    public function fetchTransactions($userId, $transactionId = null, $connectionId = null)
+    {
+        $url = "/users/" . $userId . "/transactions";
+
+        if ($transactionId !== null) {
+            $url .= "/". $transactionId;
+        }
+
+        if ($connectionId !== null) {
+            $url .= "?filter=connection.id.eq('" . $connectionId . "')";
+        }
+
+        $response = $this->session->apiClient->get($url, [
+            "headers" => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken(),
+                "basiq-version" => "1.0"
+            ]
+        ]);
+
+        $body = ResponseParser::parse($response);
+
+        if (isset($body["data"]) && is_array($body["data"])) {
+            return array_map(function ($transaction) {
+                var_dump($transaction);
+                return new Transaction($transaction);
+            }, $body["data"]);
+        } else {
+            return new Transaction($body);
+        }
     }
 }
