@@ -25,38 +25,52 @@ class Job extends Entity {
         $this->service = $service;
     }
 
-    public function getConnectionId($url)
+    public function getConnectionId()
     {
-        return substr($url, strrpos($url, "/") + 1);
+        if (count($this->links) === 0 || !isset($this->links["source"])) {
+            return "";
+        }
+
+        return substr($this->links["source"], strrpos($this->links["source"], "/") + 1);
     }
 
-    public function waitForCredentials($interval, $timeout, $start = 0)
+    public function getConnection()
     {
-        if ($start === 0) {
-            $start = time();
+        if (count($this->links) === 0 || !isset($this->links["source"])) {
+            $job = $this->service->getJob($this->id);
+
+            $connectionId = $job->getConnectionId();
+        } else {
+            $connectionId = $this->getConnectionId();
         }
-        if (time() - $start > $timeout) {
-            return null;
-        }
 
+        return $this->service->get($connectionId);
+    }
 
-        $job = $this->service->getJob($this->id);
+    public function waitForCredentials($interval, $timeout)
+    {
+        $start = time();
 
-        for ($i = 0; $i < count($job->steps); $i++) {
-            $step = $job->steps[$i];
-            if ($step["title"] === "verify-credentials") {
-                if ($step["status"] === "success") {
-                    return $this->service->get($this->getConnectionId($job->links["source"]));
-                }
-                if ($step["status"] === "failed") {
+        while (true) {
+            $job = $this->service->getJob($this->id);
+
+            for ($i = 0; $i < count($job->steps); $i++) {
+                if (time() - $start > $timeout) {
                     return null;
                 }
+                $step = $job->steps[$i];
+                if ($step["title"] === "verify-credentials") {
+                    if ($step["status"] === "success") {
+                        return $this->service->get($job->getConnectionId());
+                    }
+                    if ($step["status"] === "failed") {
+                        return null;
+                    }
+                }
+                $i++;
             }
-            $i++;
+
+            sleep($interval / 1000);
         }
-
-        sleep($interval / 1000);
-
-        return $this->waitForCredentials($interval, $timeout, $start);
     }
 }
