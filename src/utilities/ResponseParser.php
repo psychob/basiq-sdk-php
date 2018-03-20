@@ -16,21 +16,11 @@ class ResponseParser {
         
             if ($body === null) {
                 $GLOBALS["log"]->error($contents);
-                throw new HttpResponseException("Invalid response received from server. Check log for the response");
+                throw new \Exception("Invalid response received from server. Check log for the response");
             }
 
             if ($response->getStatusCode() > 299) {
-                if (isset($body["data"])) {
-                    $error = array_reduce($body["data"], function ($sum, $error) {
-                        return $sum .= $error["detail"];
-                    }, "");
-                } else if (isset($body["errorMessage"])) {
-                    $error = $body["errorMessage"];
-                } else {
-                    $error = "Unexpected error from server";
-                }
-                $GLOBALS["log"]->error($error . ". Response body: ". $contents);
-                throw new HttpResponseException($error . ". Check the error log for the entire response");
+                throw new HttpResponseException($body, $response->getStatusCode());
             }
 
             return $body;
