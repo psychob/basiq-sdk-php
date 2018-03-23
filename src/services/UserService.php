@@ -8,6 +8,7 @@ use Basiq\Entities\Account;
 use Basiq\Entities\Transaction;
 use Basiq\Entities\Connection;
 use Basiq\Utilities\ResponseParser;
+use Basiq\Utilities\FilterBuilder;
 
 class UserService extends Service {
 
@@ -90,7 +91,7 @@ class UserService extends Service {
         return null;
     }
 
-    public function fetchAccounts($userId, $accountId = null, $connectionId = null)
+    public function fetchAccounts($userId, $accountId = null, FilterBuilder $filter = null)
     {
         $url = "/users/" . $userId . "/accounts";
 
@@ -98,8 +99,8 @@ class UserService extends Service {
             $url .= "/". $accountId;
         }
 
-        if ($connectionId !== null) {
-            $url .= "?filter=connection.id.eq('" . $connectionId . "')";
+        if ($filter !== null) {
+            $url .= "?" . $filter->getFilter();
         }
 
         $response = $this->session->apiClient->get($url, [
@@ -121,7 +122,7 @@ class UserService extends Service {
         }
     }
 
-    public function fetchTransactions($userId, $transactionId = null, $connectionId = null)
+    public function fetchTransactions($userId, $transactionId = null, $filter = null)
     {
         $url = "/users/" . $userId . "/transactions";
 
@@ -129,8 +130,8 @@ class UserService extends Service {
             $url .= "/". $transactionId;
         }
 
-        if ($connectionId !== null) {
-            $url .= "?filter=connection.id.eq('" . $connectionId . "')";
+        if ($filter !== null) {
+            $url .= "?" . $filter->getFilter();
         }
 
         $response = $this->session->apiClient->get($url, [
@@ -169,9 +170,15 @@ class UserService extends Service {
         }, $body["data"]);
     }
 
-    public function getAllConnections($connectionService, $user)
+    public function getAllConnections($connectionService, $user, $filter)
     {
-        $response = $this->session->apiClient->get("users/" . $user->id . "/connections", [
+        $url = "users/" . $user->id . "/connections";
+
+        if ($filter !== null) {
+            $url .= "?" . $filter->getFilter();
+        }
+
+        $response = $this->session->apiClient->get($url, [
             "headers" => [
                 "Content-type" => "application/json",
                 "Authorization" => "Bearer ".$this->session->getAccessToken(),

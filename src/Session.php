@@ -4,6 +4,7 @@ namespace Basiq;
 
 use GuzzleHttp\Client;
 use Basiq\Utilities\ResponseParser;
+use Basiq\Services\UserService;
 
 class Session {
 
@@ -80,6 +81,16 @@ class Session {
         ]);
 
         return ResponseParser::parse($response);
+    }
+
+    public function getUser($id)
+    {
+        return (new UserService($this))->get($id);
+    }
+
+    public function forUser($id)
+    {
+        return (new UserService($this))->forUser($id);
     }
 
 }
