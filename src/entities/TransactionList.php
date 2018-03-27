@@ -19,7 +19,6 @@ class TransactionList extends Entity {
 
     public function next()
     {
-        var_dump($this->links);
         if (!isset($this->links["next"])) {
             return false;
         }
