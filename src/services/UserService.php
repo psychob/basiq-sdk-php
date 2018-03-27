@@ -6,6 +6,7 @@ use Basiq\Entities\User;
 use Basiq\Entities\Job;
 use Basiq\Entities\Account;
 use Basiq\Entities\Transaction;
+use Basiq\Entities\TransactionList;
 use Basiq\Entities\Connection;
 use Basiq\Utilities\ResponseParser;
 use Basiq\Utilities\FilterBuilder;
@@ -145,9 +146,7 @@ class UserService extends Service {
         $body = ResponseParser::parse($response);
 
         if (isset($body["data"]) && is_array($body["data"])) {
-            return array_map(function ($transaction) {
-                return new Transaction($transaction);
-            }, $body["data"]);
+            return new TransactionList($body, $this->session);
         } else {
             return new Transaction($body);
         }
