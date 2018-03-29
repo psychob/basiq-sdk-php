@@ -45,14 +45,10 @@ class ConnectionService extends Service {
         return (new Job($this, $body));
     }
 
-    public function update($connectionId, $data = []) {
-        if (!isset($data["password"])) {
+    public function update($connectionId, $password) {
+        if (!isset($password)) {
             throw new \InvalidArgumentException("Invalid parameters provided");
         }
-
-        $data = array_filter($data, function ($key) {
-            return $key === "password" || $key === "securityCode";
-        }, ARRAY_FILTER_USE_KEY);
 
         $response = $this->session->apiClient->post("users/" . $this->user->id . "/connections/" . $connectionId, [
             "headers" => [
@@ -60,7 +56,7 @@ class ConnectionService extends Service {
                 "Authorization" => "Bearer ".$this->session->getAccessToken(),
                 "basiq-version" => "1.0"
             ],
-            "json" => $data
+            "json" => ["password" => $password]
         ]);
 
         $body = ResponseParser::parse($response);

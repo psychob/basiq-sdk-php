@@ -63,24 +63,24 @@ class User extends Entity {
         return $this->userService->getAllConnections($this->connectionService, $this);
     }
 
-    public function fetchAccounts($connectionId = null)
+    public function getAccounts($connectionId = null)
     {
-        return $this->userService->fetchAccounts($this->id, null, $connectionId);
+        return $this->userService->getAccounts($this->id, null, $connectionId);
     }
 
-    public function fetchAccount($accountId)
+    public function getAccount($accountId)
     {
-        return $this->userService->fetchAccounts($this->id, $accountId);
+        return $this->userService->getAccounts($this->id, $accountId);
     }
 
-    public function fetchTransactions($connectionId = null)
+    public function getTransactions($connectionId = null)
     {
-        return $this->userService->fetchTransactions($this->id, null, $connectionId);
+        return $this->userService->getTransactions($this->id, null, $connectionId);
     }
 
-    public function fetchTransaction($transactionId)
+    public function getTransaction($transactionId)
     {
-        return $this->userService->fetchTransactions($this->id, $transactionId);
+        return $this->userService->getTransactions($this->id, $transactionId);
     }
 
     public function refreshAllConnections()

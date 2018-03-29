@@ -52,12 +52,12 @@ class UserService extends Service {
         return (new User($this, ResponseParser::parse($response)));
     }
 
-    public function update($id, $data) {
+    public function update($id, $password) {
         if (!isset($id)) {
             throw new \InvalidArgumentException("No id provided");
         }
 
-        if (!isset($data["email"]) && !isset($data["mobile"])) {
+        if (!isset($password)) {
             throw new \InvalidArgumentException("No valid parameters for update provided");
         }
 
@@ -71,7 +71,7 @@ class UserService extends Service {
                 "Authorization" => "Bearer ".$this->session->getAccessToken(),
                 "basiq-version" => "1.0"
             ],
-            "json" => $data
+            "json" => ["password" => $password]
         ]);
         return (new User($this, ResponseParser::parse($response)));
     }
@@ -92,7 +92,7 @@ class UserService extends Service {
         return null;
     }
 
-    public function fetchAccounts($userId, $accountId = null, FilterBuilder $filter = null)
+    public function getAccounts($userId, $accountId = null, FilterBuilder $filter = null)
     {
         $url = "/users/" . $userId . "/accounts";
 
@@ -123,7 +123,7 @@ class UserService extends Service {
         }
     }
 
-    public function fetchTransactions($userId, $transactionId = null, $filter = null)
+    public function getTransactions($userId, $transactionId = null, $filter = null)
     {
         $url = "/users/" . $userId . "/transactions";
 
