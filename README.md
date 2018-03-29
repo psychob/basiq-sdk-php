@@ -131,7 +131,7 @@ Services
 ##### Creating a new Session object
 
 ```php
-$session = new Session("YOUR_API_KEY")
+$session = new Session("YOUR_API_KEY");
 ```
 
 #### UserService
@@ -141,7 +141,7 @@ The following are APIs available for the User service
 ##### Creating a new UserService
 
 ```php
-$userService = new UserService($session)
+$userService = new UserService($session);
 ```
 
 ##### Referencing a user
@@ -149,67 +149,67 @@ $userService = new UserService($session)
 to perform additional actions for the instantiated user.*
 
 ```php
-$user = $userService->forUser($userId)
+$user = $userService->forUser($userId);
 ```
 
 ##### Creating a new User
 
 ```php
-$user = $userService->create(["email" => "", "mobile" => ""])
+$user = $userService->create(["email" => "", "mobile" => ""]);
 ```
 
 ##### Getting a User
 
 ```php
-$user = $userService->get($userId)
+$user = $userService->get($userId);
 ```
 
 ##### Update a User
 
 ```php
-$user = $userService->update($userId, ["email" => "", "mobile" => ""])
+$user = $userService->update($userId, ["email" => "", "mobile" => ""]);
 ```
 
 ##### Delete a User
 
 ```php
-null = $userService->delete($userId)
+null = $userService->delete($userId);
 ```
 
 ##### Refresh connections
 
 ```php
-$jobs = $userService->refreshAllConnections($userId)
+$jobs = $userService->refreshAllConnections($userId);
 ```
 
 ##### List all connections
 
 ```php
-$conns = $userService->getAllConnections($userId[, $filter])
+$conns = $userService->getAllConnections($userId[, $filter]);
 ```
 
 ##### Get account
 
 ```php
-$acc = $userService->getAccount($userId, $accountId)
+$acc = $userService->getAccount($userId, $accountId);
 ```
 
 ##### Get accounts
 
 ```php
-$accs = $userService->getAccounts($userId[, $filter])
+$accs = $userService->getAccounts($userId[, $filter]);
 ```
 
 ##### Get transaction
 
 ```php
-$transaction = $userService->getTransaction($userId, $transactionId)
+$transaction = $userService->getTransaction($userId, $transactionId);
 ```
 
 ##### Get transactions
 
 ```php
-$transactions = $userService->getTransactions($userId[, $filter])
+$transactions = $userService->getTransactions($userId[, $filter]);
 ```
 
 #### ConnectionService
@@ -219,43 +219,43 @@ The following are APIs available for the Connection service
 ##### Creating a new ConnectionService
 
 ```php
-$connService = new ConnectionService($session, $user)
+$connService = new ConnectionService($session, $user);
 ```
 
 ##### Get connection
 
 ```php
-$connection = $connService->get($connectionId)
+$connection = $connService->get($connectionId);
 ```
 
 ##### Get connection entity with ID without performing an http request
 
 ```php
-$connection = $connService->for($connectionId)
+$connection = $connService->for($connectionId);
 ```
 
 ##### Create a new connection
 
 ```php
-$job = $connService->create(["institutionId" => "", "loginId" => "", "password" => "", "securityCode" => ""])
+$job = $connService->create(["institutionId" => "", "loginId" => "", "password" => "", "securityCode" => ""]);
 ```
 
 ##### Update connection
 
 ```php
-$job = $connService->update($connectionId, $password)
+$job = $connService->update($connectionId, $password);
 ```
 
 ##### Delete connection
 
 ```php
-null = $connService->delete($connectionId)
+null = $connService->delete($connectionId);
 ```
 
 ##### Get a job
 
 ```php
-$job = $connService->getJob($jobId)
+$job = $connService->getJob($jobId);
 ```
 
 </details>
@@ -268,49 +268,49 @@ Entities
 ##### Updating a user instance
 
 ```php
-$user = $user->update(["email" => "", "mobile" => ""])
+$user = $user->update(["email" => "", "mobile" => ""]);
 ```
 
 ##### Deleting a user
 
 ```php
-null = $user->delete()
+null = $user->delete();
 ```
 
 ##### Get all of the user's accounts
 
 ```php
-$accounts = $user->getAccounts()
+$accounts = $user->getAccounts();
 ```
 
 ##### Get a user's single account
 
 ```php
-$account = $user->getAccount($accountId)
+$account = $user->getAccount($accountId);
 ```
 
 ##### Get all of the user's transactions
 
 ```php
-$transactions = $user->getTransactions()
+$transactions = $user->getTransactions();
 ```
 
 ##### Get a user's single transaction
 
 ```php
-$transaction = $user->getTransaction($transactionId)
+$transaction = $user->getTransaction($transactionId);
 ```
 
 ##### Create a new connection
 
 ```php
-$job = $user->createConnection(["institutionId" => "", "loginId" => "", "password" => "", "securityCode" => ""])
+$job = $user->createConnection(["institutionId" => "", "loginId" => "", "password" => "", "securityCode" => ""]);
 ```
 
 ##### Refresh all connections
 
 ```php
-$jobs = $user->refreshAllConnections()
+$jobs = $user->refreshAllConnections();
 ```
 
 #### Connection
@@ -318,19 +318,19 @@ $jobs = $user->refreshAllConnections()
 ##### Refresh a connection
 
 ```php
-$job = $connection->refresh()
+$job = $connection->refresh();
 ```
 
 ##### Update a connection
 
 ```php
-$job = $connection->update($password)
+$job = $connection->update($password);
 ```
 
 ##### Delete a connection
 
 ```php
-null = $connection->delete()
+null = $connection->delete();
 ```
 
 #### Job
@@ -338,27 +338,27 @@ null = $connection->delete()
 ##### Get the connection id (if available)
 
 ```php
-$connectionId = $job->getConnectionId()
+$connectionId = $job->getConnectionId();
 ```
 
 ##### Get the connection
 
 ```php
-$connection = $job->getConnection()
+$connection = $job->getConnection();
 ```
 
 ##### Get the connection after waiting for credentials step resolution
 (interval is in milliseconds, timeout is in seconds)
 
 ```php
-$connection = $job->waitForCredentials(interval, timeout)
+$connection = $job->waitForCredentials($interval, $timeout);
 ```
 
 ##### Get the connection after waiting for transactions step resolution
 (interval is in milliseconds, timeout is in seconds)
 
 ```php
-$connection = $job->waitForTransactions(interval, timeout)
+$connection = $job->waitForTransactions($interval, $timeout);
 ```
 
 #### Transaction list
@@ -366,6 +366,6 @@ $connection = $job->waitForTransactions(interval, timeout)
 ##### Getting the next set of transactions [mut]
 
 ```php
-$next = $transactions->next()
+$next = $transactions->next();
 ```
 </details>
