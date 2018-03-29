@@ -131,7 +131,7 @@ Services
 ##### Creating a new Session object
 
 ```php
-session = new Session("YOUR_API_KEY")
+$session = new Session("YOUR_API_KEY")
 ```
 
 #### UserService
@@ -141,7 +141,7 @@ The following are APIs available for the User service
 ##### Creating a new UserService
 
 ```php
-$userService = $new UserService($session)
+$userService = new UserService($session)
 ```
 
 ##### Referencing a user
