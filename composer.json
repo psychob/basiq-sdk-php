@@ -17,7 +17,9 @@
             "role": "Developer"
         }
     ],
-    "psr-4": {
-        "Basiq\\": "src/"
+    "autoload": {
+        "psr-0": {
+            "Basiq\\": "src/"
+        }
     }
 }
