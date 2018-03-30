@@ -56,10 +56,37 @@ class Job extends Entity {
 
             for ($i = 0; $i < count($job->steps); $i++) {
                 if (time() - $start > $timeout) {
-                    return null;
+                    throw new Exception("Polling operation timed out");
                 }
                 $step = $job->steps[$i];
                 if ($step["title"] === "verify-credentials") {
+                    if ($step["status"] === "success") {
+                        return $this->service->get($job->getConnectionId());
+                    }
+                    if ($step["status"] === "failed") {
+                        return null;
+                    }
+                }
+                $i++;
+            }
+
+            sleep($interval / 1000);
+        }
+    }
+
+    public function waitForTransactions($interval, $timeout)
+    {
+        $start = time();
+
+        while (true) {
+            $job = $this->service->getJob($this->id);
+
+            for ($i = 0; $i < count($job->steps); $i++) {
+                if (time() - $start > $timeout) {
+                    throw new Exception("Polling operation timed out");
+                }
+                $step = $job->steps[$i];
+                if ($step["title"] === "retrieve-transactions") {
                     if ($step["status"] === "success") {
                         return $this->service->get($job->getConnectionId());
                     }

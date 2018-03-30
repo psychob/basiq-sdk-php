@@ -7,10 +7,14 @@ This is the documentation for the PHP SDK for Basiq.io API
 Basiq.io PHP SDK is a set of tools you can use to easily communicate with Basiq API.
 If you want to get familiar with the API docs, [click here](https://basiq.io/api/).
 
-The SDKs to mirror the HTTP API's functionality and hierarchy.
+The SDK is organized to mirror the HTTP API's functionality and hierarchy.
 The top level object needed for SDKs functionality is the Session
 object which requires your API key to be instantiated.
 You can grab your API key on the [dashboard](http://dashboard.basiq.io).
+
+## Changelog
+
+0.9.0beta - Initial release
 
 ## Getting started
 
@@ -20,9 +24,17 @@ Now that you have your API key, you can use the following command to install the
 composer require basiq-sdk-php
 ```
 
-Next step is to import the used classes into your namespace:
+Next step is to import the used classes into your namespace.
+A list of classes you will probably use the most:
 ```php
+// Used to handle the token session
 use Basiq\Session;
+
+// Used to manipulate jobs and connections
+use Basiq\Services\ConnectionService;
+
+// Used to manipulate users
+use Basiq\Services\UserService;
 ```
 
 ## Common usage examples
@@ -348,14 +360,16 @@ $connection = $job->getConnection();
 ```
 
 ##### Get the connection after waiting for credentials step resolution
-(interval is in milliseconds, timeout is in seconds)
+(interval is in milliseconds, timeout is in seconds; in case of timeout
+an exception will be thrown)
 
 ```php
 $connection = $job->waitForCredentials($interval, $timeout);
 ```
 
 ##### Get the connection after waiting for transactions step resolution
-(interval is in milliseconds, timeout is in seconds)
+(interval is in milliseconds, timeout is in seconds; in case of timeout
+an exception will be thrown)
 
 ```php
 $connection = $job->waitForTransactions($interval, $timeout);

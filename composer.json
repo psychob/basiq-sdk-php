@@ -1,9 +1,22 @@
 {
-    "name": "basiq/basiq-sdk-php",
+    "name": "basiqio/basiq-sdk-php",
     "require": {
         "guzzlehttp/guzzle": "~6.0",
         "monolog/monolog": "^1.23"
     },
+    "description": "PHP SDK for Basiq.io API",
+    "keywords": ["basiq","finance","api","sdk"],
+    "homepage": "https://github.com/basiqio/basiq-sdk-php",
+    "license": "MIT",
+    "version": "0.9.0beta",
+    "authors": [
+        {
+            "name": "Nenad Lukic",
+            "email": "nenad@basiq.io",
+            "homepage": "https://basiq.io",
+            "role": "Developer"
+        }
+    ],
     "psr-4": {
         "Basiq\\": "src/"
     }
