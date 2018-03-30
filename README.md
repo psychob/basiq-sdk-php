@@ -21,7 +21,7 @@ You can grab your API key on the [dashboard](http://dashboard.basiq.io).
 Now that you have your API key, you can use the following command to install the SDK:
 
 ```bash
-composer require basiq-sdk-php
+composer require basiqio/basiq-sdk-php
 ```
 
 Next step is to import the used classes into your namespace.
