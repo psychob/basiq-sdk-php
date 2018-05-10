@@ -15,6 +15,7 @@ You can grab your API key on the [dashboard](http://dashboard.basiq.io).
 ## Changelog
 
 0.9.0beta - Initial release
+0.9.1beta - getTransactions now receives limit parameter. Fixed bug on refresh all connections
 
 ## Getting started
 
