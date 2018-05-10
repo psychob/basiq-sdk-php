@@ -73,9 +73,9 @@ class User extends Entity {
         return $this->userService->getAccounts($this->id, $accountId);
     }
 
-    public function getTransactions($connectionId = null)
+    public function getTransactions($filterBuilder = null, $limit = null)
     {
-        return $this->userService->getTransactions($this->id, null, $connectionId);
+        return $this->userService->getTransactions($this->id, null, $filterBuilder, $limit);
     }
 
     public function getTransaction($transactionId)

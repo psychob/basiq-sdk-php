@@ -2,6 +2,7 @@
 
 namespace Basiq\Services;
 
+use Basiq\Services\ConnectionService;
 use Basiq\Entities\User;
 use Basiq\Entities\Job;
 use Basiq\Entities\Account;
@@ -123,7 +124,7 @@ class UserService extends Service {
         }
     }
 
-    public function getTransactions($userId, $transactionId = null, $filter = null)
+    public function getTransactions($userId, $transactionId = null, $filter = null, $limit = null)
     {
         $url = "/users/" . $userId . "/transactions";
 
@@ -131,8 +132,23 @@ class UserService extends Service {
             $url .= "/". $transactionId;
         }
 
+        if ($filter !== null || $limit !== null) {
+            $url .= "?";
+        }
+
         if ($filter !== null) {
-            $url .= "?" . $filter->getFilter();
+            $url .= $filter->getFilter();
+        }
+
+        if ($filter !== null && $limit !== null) {
+            $url .= "&";
+        }
+
+        if ($limit !== null) {
+            if ($limit > 500) {
+                throw new \Exception("Limit must be a number less than or equal to 500");
+            }
+            $url .= "limit=".$limit;
         }
 
         $response = $this->session->apiClient->get($url, [
@@ -146,7 +162,7 @@ class UserService extends Service {
         $body = ResponseParser::parse($response);
 
         if (isset($body["data"]) && is_array($body["data"])) {
-            return new TransactionList($body, $this->session);
+            return new TransactionList($body, $this->session, $limit);
         } else {
             return new Transaction($body);
         }
@@ -162,10 +178,11 @@ class UserService extends Service {
             ]
         ]);
 
+        $connectionService = new ConnectionService($this->session, new User($this, ["id" => $userId]));
         $body = ResponseParser::parse($response);
 
         return array_map(function ($job) {
-            return new Job($this, $job);
+            return new Job($connectionService, $job);
         }, $body["data"]);
     }
 

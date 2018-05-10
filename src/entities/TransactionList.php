@@ -10,11 +10,12 @@ class TransactionList extends Entity {
     public $links;
     public $session;
   
-    public function __construct($data, $session)
+    public function __construct($data, $session, $limit)
     {
         $this->data = $this->parseData($data["data"]);
         $this->links = $data["links"];
         $this->session = $session;
+        $this->limit = $limit;
     }
 
     public function next()
@@ -24,6 +25,10 @@ class TransactionList extends Entity {
         }
 
         $next = substr($this->links["next"], strpos($this->links["next"], ".io/")+4);
+
+        if ($this->limit !== null) {
+            $next .= "&limit=".$this->limit;
+        }
 
         $response = $this->session->apiClient->get($next, [
             "headers" => [

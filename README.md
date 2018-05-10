@@ -83,7 +83,7 @@ $user = $session->forUser($userId);
 
 $fb = new FilterBuilder();
 $fb->eq("connection->id", "conn-id-213-id");
-$transactions = $user->getTransactions(&fb);
+$transactions = $user->getTransactions($fb);
 
 
 while ($transactions->next()) {
@@ -304,7 +304,7 @@ $account = $user->getAccount($accountId);
 ##### Get all of the user's transactions
 
 ```php
-$transactions = $user->getTransactions();
+$transactions = $user->getTransactions($filterBuilder = null, $limit = null < 500);
 ```
 
 ##### Get a user's single transaction
