@@ -181,7 +181,7 @@ class UserService extends Service {
         $connectionService = new ConnectionService($this->session, new User($this, ["id" => $userId]));
         $body = ResponseParser::parse($response);
 
-        return array_map(function ($job) {
+        return array_map(function ($job) use ($connectionService) {
             return new Job($connectionService, $job);
         }, $body["data"]);
     }
