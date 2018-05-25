@@ -53,12 +53,12 @@ class UserService extends Service {
         return (new User($this, ResponseParser::parse($response)));
     }
 
-    public function update($id, $password) {
+    public function update($id, $data) {
         if (!isset($id)) {
             throw new \InvalidArgumentException("No id provided");
         }
 
-        if (!isset($password)) {
+        if (!isset($data)) {
             throw new \InvalidArgumentException("No valid parameters for update provided");
         }
 
@@ -72,7 +72,7 @@ class UserService extends Service {
                 "Authorization" => "Bearer ".$this->session->getAccessToken(),
                 "basiq-version" => "1.0"
             ],
-            "json" => ["password" => $password]
+            "json" => $data
         ]);
         return (new User($this, ResponseParser::parse($response)));
     }
