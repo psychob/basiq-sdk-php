@@ -16,9 +16,11 @@ class Session {
 
     private $sessionTimestamp;
 
-    private $tokenValidity;    
+    private $tokenValidity; 
+    
+    private $apiVersion;
 
-    public function __construct($apiKey) {
+    public function __construct($apiKey, $apiVersion="1.0") {
         $this->apiClient = new Client([
             // Base URI is used with relative requests
             'base_uri' => 'http://au-api.basiq.io',
@@ -32,7 +34,12 @@ class Session {
 
         $this->tokenValidity = 3600;
         $this->apiKey = $apiKey;
+        $this->apiVersion = $apiVersion;
         $this->accessToken = $this->getAccessToken();
+    }
+
+    public function getApiVersion() {
+        return $this->apiVersion;
     }
  
     public function getAccessToken()
@@ -41,11 +48,15 @@ class Session {
             return $this->accessToken;
         }
 
+        if ($this->apiVersion != "2.0" && $this->apiVersion != "1.0") {
+            error_log("Given version isn't supported");
+        }
+
         $response = $this->apiClient->post("/oauth2/token", [
             "headers" => [
                 "Content-type" => "application/json",
                 "Authorization" => "Basic ".$this->apiKey,
-                "basiq-version" => "1.0"
+                "basiq-version" => $this->apiVersion
             ]
         ]);
 
@@ -63,8 +74,7 @@ class Session {
     {
         $response = $this->apiClient->get("/institutions", [
             "headers" => [
-                "Authorization" => "Bearer ".$this->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->getAccessToken()
             ]
         ]);
 
@@ -75,8 +85,7 @@ class Session {
     {
         $response = $this->apiClient->get("/institutions/" . $id, [
             "headers" => [
-                "Authorization" => "Bearer ".$this->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->getAccessToken()
             ]
         ]);
 

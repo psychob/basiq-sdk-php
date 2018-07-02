@@ -4,7 +4,7 @@ namespace Basiq\Entities;
 
 use Basiq\Utilities\ResponseParser;
 
-class TransactionList extends Entity {
+class TransactionListV2 extends Entity {
 
     public $data;
     public $links;
@@ -48,7 +48,7 @@ class TransactionList extends Entity {
     private function parseData($data)
     {
         return array_map(function ($transaction) {
-            return new Transaction($transaction);
+            return new TransactionV2($transaction);
         }, $data);
     }
 }

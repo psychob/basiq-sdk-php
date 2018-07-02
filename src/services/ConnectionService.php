@@ -34,8 +34,7 @@ class ConnectionService extends Service {
         $response = $this->session->apiClient->post("users/" . $this->user->id . "/connections", [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ],
             "json" => $data
         ]);
@@ -53,8 +52,7 @@ class ConnectionService extends Service {
         $response = $this->session->apiClient->post("users/" . $this->user->id . "/connections/" . $connectionId, [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ],
             "json" => ["password" => $password]
         ]);
@@ -69,8 +67,7 @@ class ConnectionService extends Service {
         $response = $this->session->apiClient->get("users/" . $this->user->id . "/connections/"  . $connectionId, [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ]
         ]);
 
@@ -84,8 +81,7 @@ class ConnectionService extends Service {
         $response = $this->session->apiClient->get("jobs/" . $jobId, [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ]
         ]);
 
@@ -99,8 +95,7 @@ class ConnectionService extends Service {
         $response = $this->session->apiClient->post("users/" . $this->user->id . "/connections/" . $connectionId . "/refresh", [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ]
         ]);
 
@@ -114,8 +109,7 @@ class ConnectionService extends Service {
         $response = $this->session->apiClient->delete("users/" . $this->user->id . "/connections/" . $connectionId, [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ]
         ]);
 

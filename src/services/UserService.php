@@ -8,6 +8,8 @@ use Basiq\Entities\Job;
 use Basiq\Entities\Account;
 use Basiq\Entities\Transaction;
 use Basiq\Entities\TransactionList;
+use Basiq\Entities\TransactionV2;
+use Basiq\Entities\TransactionListV2;
 use Basiq\Entities\Connection;
 use Basiq\Utilities\ResponseParser;
 use Basiq\Utilities\FilterBuilder;
@@ -26,8 +28,7 @@ class UserService extends Service {
         $response = $this->session->apiClient->post("/users", [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ],
             "json" => $data
         ]);
@@ -45,8 +46,7 @@ class UserService extends Service {
         $response = $this->session->apiClient->get("/users/" . $id, [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ]
         ]);
 
@@ -69,8 +69,7 @@ class UserService extends Service {
         $response = $this->session->apiClient->post("/users/" . $id, [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ],
             "json" => $data
         ]);
@@ -85,8 +84,7 @@ class UserService extends Service {
         $response = $this->session->apiClient->delete("/users/" . $id, [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ]
         ]);
 
@@ -108,8 +106,7 @@ class UserService extends Service {
         $response = $this->session->apiClient->get($url, [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ]
         ]);
 
@@ -154,17 +151,16 @@ class UserService extends Service {
         $response = $this->session->apiClient->get($url, [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ]
         ]);
 
         $body = ResponseParser::parse($response);
 
         if (isset($body["data"]) && is_array($body["data"])) {
-            return new TransactionList($body, $this->session, $limit);
+            return $this->session->getApiVersion() == "1.0" ? new TransactionList($body, $this->session, $limit) : new TransactionListV2($body, $this->session, $limit);
         } else {
-            return new Transaction($body);
+            return $this->session->getApiVersion() == "1.0" ? new Transaction($body) : new TransactionV2($body);
         }
     }
 
@@ -173,8 +169,7 @@ class UserService extends Service {
         $response = $this->session->apiClient->post("users/" . $userId . "/connections/refresh", [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ]
         ]);
 
@@ -197,8 +192,7 @@ class UserService extends Service {
         $response = $this->session->apiClient->get($url, [
             "headers" => [
                 "Content-type" => "application/json",
-                "Authorization" => "Bearer ".$this->session->getAccessToken(),
-                "basiq-version" => "1.0"
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
             ]
         ]);
 
