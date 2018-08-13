@@ -15,7 +15,6 @@ class ResponseParser {
             $body = json_decode($contents, true);
         
             if ($body === null) {
-                $GLOBALS["log"]->error($contents);
                 throw new \Exception("Invalid response received from server. Check log for the response");
             }
 

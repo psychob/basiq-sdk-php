@@ -17,7 +17,6 @@ class HttpResponseException extends \Exception {
         } else {
             $error = "Unexpected error from server";
         }
-        $GLOBALS["log"]->error($error . ". Response body: ". json_encode($body));
 
         $this->response = $body;
         $this->statusCode = $statusCode;
