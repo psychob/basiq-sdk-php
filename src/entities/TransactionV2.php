@@ -22,7 +22,7 @@ class TransactionV2 extends Entity {
     public function __construct($data)
     {
         $this->id = $data["id"];
-        $this->id = $data["type"];
+        $this->type = $data["type"];
         $this->status = $data["status"];
         $this->description = $data["description"];
         $this->amount = $data["amount"];
