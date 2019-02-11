@@ -52,7 +52,7 @@ class Session {
             error_log("Given version isn't supported");
         }
 
-        $response = $this->apiClient->post("/oauth2/token", [
+        $response = $this->apiClient->post("/token", [
             "headers" => [
                 "Content-type" => "application/json",
                 "Authorization" => "Basic ".$this->apiKey,

@@ -7,7 +7,7 @@
     "keywords": ["basiq","finance","api","sdk"],
     "homepage": "https://github.com/basiqio/basiq-sdk-php",
     "license": "MIT",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "authors": [
         {
             "name": "Nenad Lukic",
