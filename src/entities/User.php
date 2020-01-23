@@ -25,7 +25,7 @@ class User extends Entity {
         $this->connectionService = new ConnectionService($service->session, $this);
     }
 
-    public function update($data) 
+    public function update($data)
     {
         return $this->userService->update($this->id, $data);
     }
@@ -39,16 +39,20 @@ class User extends Entity {
      * @param $institutionId
      * @param $userId
      * @param $password
-     * @param null $securityCode
+     * @param string|null $securityCode
+     * @param string|null $secondaryLoginId
      * @return Job|void
      */
-    public function createConnection($institutionId, $userId, $password, $securityCode = null)
+    public function createConnection($institutionId, $userId, $password, $securityCode = null, $secondaryLoginId = null)
     {
         $data = ["institutionId" => $institutionId, "loginId" => $userId, "password" => $password];
         if ($securityCode) {
             $data["securityCode"] = $securityCode;
         }
-        
+        if ($secondaryLoginId) {
+            $data['secondaryLoginId'] = $secondaryLoginId;
+        }
+
         return $this->connectionService->create($data);
     }
 

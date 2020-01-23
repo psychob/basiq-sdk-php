@@ -181,7 +181,7 @@ class UserService extends Service {
         }, $body["data"]);
     }
 
-    public function getAllConnections($connectionService, $user, $filter)
+    public function getAllConnections($connectionService, $user, $filter = null)
     {
         $url = "users/" . $user->id . "/connections";
 
