@@ -74,7 +74,7 @@ $session = new Session("YOUR_API_KEY");
 
 $user = $session->forUser($userId);
 
-$job = $user->createConnection($institutionId, $userId, $password[, $securityCode]);
+$job = $user->createConnection($institutionId, $userId, $password[, $securityCode, $secondaryLoginId]);
 
 // Poll our server to wait for the credentials step to be evaluated
 $connection = job->waitForCredentials(1000, 60);
@@ -261,7 +261,7 @@ $connection = $connService->for($connectionId);
 ##### Create a new connection
 
 ```php
-$job = $connService->create(["institutionId" => "", "loginId" => "", "password" => "", "securityCode" => ""]);
+$job = $connService->create(["institutionId" => "", "loginId" => "", "password" => "", "securityCode" => "", "secondaryLoginId" => ""]);
 ```
 
 ##### Update connection
@@ -328,7 +328,7 @@ $transaction = $user->getTransaction($transactionId);
 ##### Create a new connection
 
 ```php
-$job = $user->createConnection(["institutionId" => "", "loginId" => "", "password" => "", "securityCode" => ""]);
+$job = $user->createConnection(["institutionId" => "", "loginId" => "", "password" => "", "securityCode" => "", "secondaryLoginId" => ""]);
 ```
 
 ##### Refresh all connections

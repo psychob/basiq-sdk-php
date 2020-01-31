@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Basiq\Services;
 
@@ -11,9 +11,9 @@ class ConnectionService extends Service {
 
     protected $user;
 
-    public function __construct($session, $user) 
+    public function __construct($session, $user)
     {
-        $this->session = $session;
+        parent::__construct($session);
         $this->user = $user;
     }
 
@@ -23,7 +23,7 @@ class ConnectionService extends Service {
         }
 
         $data = array_filter($data, function ($key) {
-            return $key === "institutionId" || $key === "loginId" || $key === "password" || $key === "securityCode";
+            return $key === "institutionId" || $key === "loginId" || $key === "password" || $key === "securityCode" || $key === 'secondaryLoginId';
         }, ARRAY_FILTER_USE_KEY);
 
         $data["institution"] = [
@@ -113,7 +113,7 @@ class ConnectionService extends Service {
             ]
         ]);
 
-        $body = ResponseParser::parse($response);
+        ResponseParser::parse($response);
 
         return null;
     }
