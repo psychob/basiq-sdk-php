@@ -14,9 +14,11 @@ You can grab your API key on the [dashboard](http://dashboard.basiq.io).
 
 ## Changelog
 
-0.9.0beta - Initial release
+1.1.0 Added support for secondaryLoginId
 
 0.9.1beta - getTransactions now receives limit parameter. Fixed bug on refresh all connections
+
+0.9.0beta - Initial release
 
 ## Getting started
 
