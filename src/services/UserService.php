@@ -202,4 +202,50 @@ class UserService extends Service {
             return new Connection($connectionService, $user, $connection);
         }, $body["data"]);
     }
+
+    public function createAuthLink($userId)
+    {
+        $url = sprintf('users/%s/auth_link', $userId);
+
+        $response = $this->session->apiClient->post($url, [
+            'headers' => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
+            ]
+        ]);
+
+        $body = ResponseParser::parse($response);
+
+        return $body['links']['public'];
+    }
+
+    public function retrieveAuthLink($userId)
+    {
+        $url = sprintf('users/%s/auth_link', $userId);
+
+        $response = $this->session->apiClient->get($url, [
+            'headers' => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
+            ]
+        ]);
+
+        $body = ResponseParser::parse($response);
+
+        return $body['links']['public'];
+    }
+
+    public function deleteAuthLink($userId)
+    {
+        $url = sprintf('users/%s/auth_link', $userId);
+
+        $response = $this->session->apiClient->delete($url, [
+            'headers' => [
+                "Content-type" => "application/json",
+                "Authorization" => "Bearer ".$this->session->getAccessToken()
+            ]
+        ]);
+
+        ResponseParser::parse($response);
+    }
 }
