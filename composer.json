@@ -1,6 +1,7 @@
 {
     "name": "basiqio/basiq-sdk-php",
     "require": {
+        "php": "^7.1",
         "guzzlehttp/guzzle": "~6.0"
     },
     "description": "PHP SDK for Basiq.io API",
@@ -13,11 +14,20 @@
             "email": "nenad@basiq.io",
             "homepage": "https://basiq.io",
             "role": "Developer"
+        },
+        {
+            "name": "Andrzej Budzanowski",
+            "email": "kontakt@andrzej.budzanowski.pl",
+            "homepage": "https://psychob.pl/",
+            "role": "Developer"
         }
     ],
     "autoload": {
         "psr-4": {
             "Basiq\\": "src/"
         }
+    },
+    "config": {
+        "sort-packages": true
     }
 }
