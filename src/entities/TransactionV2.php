@@ -8,6 +8,8 @@ class TransactionV2 extends Entity {
     public $type;
     public $status;
     public $description;
+    /** @var string|null */
+    public $bankCategory;
     public $amount;
     public $account;
     public $balance;
@@ -24,6 +26,7 @@ class TransactionV2 extends Entity {
         $this->id = $data["id"];
         $this->type = $data["type"];
         $this->status = $data["status"];
+        $this->bankCategory = $data['bankCategory'] ?? null;
         $this->description = $data["description"];
         $this->amount = $data["amount"];
         $this->account = $data["account"];
