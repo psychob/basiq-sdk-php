@@ -2,6 +2,7 @@
 
 namespace Basiq;
 
+use Basiq\entities\Institution;
 use GuzzleHttp\Client;
 use Basiq\Utilities\ResponseParser;
 use Basiq\Services\UserService;
@@ -78,7 +79,11 @@ class Session {
             ]
         ]);
 
-        return ResponseParser::parse($response);
+        $body = ResponseParser::parse($response);
+
+        return array_map(function (array $data): Institution {
+            return new Institution($data);
+        }, $body['data']);
     }
 
     public function getInstitution($id)
@@ -89,7 +94,9 @@ class Session {
             ]
         ]);
 
-        return ResponseParser::parse($response);
+        $body = ResponseParser::parse($response);
+
+        return new Institution($body);
     }
 
     public function getUser($id)
