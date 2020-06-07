@@ -32,4 +32,33 @@
                 $this->category = new EnrichedTransactionCategoryMetadata($data['category']);
             }
         }
+
+        public function isEmpty(): bool
+        {
+            return $this->merchant === null && $this->location === null && $this->category === null;
+        }
+
+        /**
+         * @return EnrichedTransactionMerchantMetadata|null
+         */
+        public function getMerchant(): ?EnrichedTransactionMerchantMetadata
+        {
+            return $this->merchant;
+        }
+
+        /**
+         * @return EnrichedTransactionLocationMetadata|null
+         */
+        public function getLocation(): ?EnrichedTransactionLocationMetadata
+        {
+            return $this->location;
+        }
+
+        /**
+         * @return EnrichedTransactionCategoryMetadata|null
+         */
+        public function getCategory(): ?EnrichedTransactionCategoryMetadata
+        {
+            return $this->category;
+        }
     }
