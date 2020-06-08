@@ -23,10 +23,11 @@
 
         public function __construct(array $data)
         {
-            $this->class = new EnrichedTransactionCategoryClassMetadata($data['class']);
-            $this->group = new EnrichedTransactionCategoryClassMetadata($data['group']);
-            $this->subdivision = new EnrichedTransactionCategoryClassMetadata($data['subdivision']);
-            $this->division = new EnrichedTransactionCategoryClassMetadata($data['division']);
+            // does basiq.io returns enriched data for any other region then anzsic?
+            $this->class = $data['anzsic']['class'] ? new EnrichedTransactionCategoryClassMetadata($data['anzsic']['class']) : null;
+            $this->group = $data['anzsic']['group'] ? new EnrichedTransactionCategoryClassMetadata($data['anzsic']['group']) : null ;
+            $this->subdivision = $data['anzsic']['subdivision'] ? new EnrichedTransactionCategoryClassMetadata($data['anzsic']['subdivision']) : null;
+            $this->division = $data['anzsic']['division'] ?  new EnrichedTransactionCategoryClassMetadata($data['anzsic']['division']) : null;
         }
 
         /**
