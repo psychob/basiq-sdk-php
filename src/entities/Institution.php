@@ -36,22 +36,23 @@
          */
         public function __construct(array $data)
         {
-            $this->name = $data['name'];
-            $this->shortName = $data['shortName'];
-            $this->institutionType = $data['institutionType'];
-            $this->country = $data['country'];
-            $this->serviceName = $data['serviceName'];
-            $this->serviceType = $data['serviceType'];
-            $this->loginIdCaption = $data['loginIdCaption'];
-            $this->passwordCaption = $data['passwordCaption'];
-            $this->tier = $data['tier'];
-            $this->authorization = $data['authorization'];
-            $this->features = $data['features'];
-            $this->forgottenPasswordUrl = $data['forgottenPasswordUrl'];
-            $this->stage = $data['stage'];
-            $this->status = $data['status'];
-            $this->stats = $data['stats'];
-            $this->logo = $data['logo'];
+            $this->id = $data['id'];
+            $this->name = $data['name'] ?? null;
+            $this->shortName = $data['shortName'] ?? null;
+            $this->institutionType = $data['institutionType'] ?? null;
+            $this->country = $data['country'] ?? null;
+            $this->serviceName = $data['serviceName'] ?? null;
+            $this->serviceType = $data['serviceType'] ?? null;
+            $this->loginIdCaption = $data['loginIdCaption'] ?? null;
+            $this->passwordCaption = $data['passwordCaption'] ?? null;
+            $this->tier = $data['tier'] ?? null;
+            $this->authorization = $data['authorization'] ?? null;
+            $this->features = $data['features'] ?? null;
+            $this->forgottenPasswordUrl = $data['forgottenPasswordUrl'] ?? null;
+            $this->stage = $data['stage'] ?? null;
+            $this->status = $data['status'] ?? null;
+            $this->stats = $data['stats'] ?? null;
+            $this->logo = $data['logo'] ?? null;
         }
 
         /**
