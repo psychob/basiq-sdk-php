@@ -13,7 +13,7 @@
         public $lat;
 
         /** @var string */
-        public $log;
+        public $lng;
 
         /**
          * EnrichedTransactionLocationGeometryMetadata constructor.
@@ -23,7 +23,7 @@
         public function __construct(array $data)
         {
             $this->lat = $data['lat'];
-            $this->log = $data['log'];
+            $this->lng = $data['lng'];
         }
 
         /**
@@ -37,8 +37,8 @@
         /**
          * @return string
          */
-        public function getLog(): string
+        public function getLng(): string
         {
-            return $this->log;
+            return $this->lng;
         }
     }
